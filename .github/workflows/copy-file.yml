@@ -1,0 +1,19 @@
+name: Copy Files
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: 'windows-latest'
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Check Env
+      run: |
+        Get-Childitem -Path "C:\Program Files (x86)\Microsoft SDKs"  -Recurse -Include *gacutil*
+
