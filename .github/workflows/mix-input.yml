@@ -1,5 +1,5 @@
 # https://github.blog/changelog/2021-11-10-github-actions-input-types-for-manual-workflows/
-name: Mixed inputs = ${{ github.event.inputs.note }}
+name: Mixed inputs
 
 on:
   workflow_dispatch:
@@ -13,5 +13,5 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Send greeting ${{ github.event.inputs.note }}
+    - name: Send greeting
       run: echo "${{ github.event.inputs.note }}"
