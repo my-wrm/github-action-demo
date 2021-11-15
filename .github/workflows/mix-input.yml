@@ -9,11 +9,12 @@ on:
         required: false
 
 jobs:
-  debug:
+  deployment-note:
+    name: Deployment Note
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        note: ["${{ github.event.inputs.note }}"]
+        note: ["test","${{ github.event.inputs.note }}"]
     steps:
       - name: Send greeting
         run: echo "debugging"
