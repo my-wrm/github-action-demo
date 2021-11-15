@@ -4,9 +4,10 @@ name: Mixed inputs
 on:
   workflow_dispatch:
     inputs:
-      note:
-        description: Deployment Note
-        required: false
+      card1:
+        description: Card 1
+      card2:
+        description: Card 2
 
 jobs:
   deployment-note:
@@ -14,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        note: ["test","${{ github.event.inputs.note }}"]
+        note: ["${{ github.event.inputs.card1 }}","${{ github.event.inputs.card2 }}"]
     steps:
       - name: Send greeting
         run: echo "debugging"
