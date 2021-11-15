@@ -11,5 +11,4 @@ jobs:
     steps:
     - name: Send greeting
       run: |
-        echo "::debug::Set the Octocat variable"
-        echo "::warning file={name},line={line},endLine={endLine},title={title}::{message}"
+        echo "::notice title=Card 1::ATX-98305"
