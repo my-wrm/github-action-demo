@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        note: ${{ github.event.inputs }}
+        note: ["${{ github.event.inputs.card1 }}", "${{ github.event.inputs.card2 }}"]
     steps:
       - name: Send greeting
         run: echo "debugging"
@@ -26,6 +26,3 @@ jobs:
     steps:
     - name: Send greeting
       run: echo "${{ github.event.inputs.note }}"
-      
-      
-  
