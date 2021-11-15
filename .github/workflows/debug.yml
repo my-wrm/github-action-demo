@@ -1,0 +1,15 @@
+name: Debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Send greeting
+      run: |
+        echo "::debug::Set the Octocat variable"
+        echo "::warning file={name},line={line},endLine={endLine},title={title}::{message}"
