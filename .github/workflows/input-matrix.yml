@@ -1,4 +1,4 @@
-name: from JSON
+name: Input Matrix
 on:
   workflow_dispatch:
     inputs:
