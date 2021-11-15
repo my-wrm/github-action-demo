@@ -1,0 +1,14 @@
+name: from JSON
+on:
+  workflow_dispatch:
+    inputs:
+      cards:
+        description: Cards
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{fromJSON(github.event.inputs.cards)}}
+    steps:
+      - run: echo "${{ matrix }}"
