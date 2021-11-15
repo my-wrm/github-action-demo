@@ -10,7 +10,7 @@ on:
 
 jobs:
   deployment-note:
-    name: Deployment Note
+    name: 📝
     runs-on: ubuntu-latest
     strategy:
       matrix:
