@@ -9,9 +9,21 @@ on:
         required: false
 
 jobs:
-  greet:
+  debug:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        note: ["${{ github.event.inputs.note }}"]
+    steps:
+      - name: Send greeting
+        run: echo "debugging"
+
+  build:
     runs-on: ubuntu-latest
 
     steps:
     - name: Send greeting
       run: echo "${{ github.event.inputs.note }}"
+      
+      
+  
