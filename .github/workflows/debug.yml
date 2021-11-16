@@ -3,7 +3,7 @@ name: Debug
 on:
   workflow_dispatch:
     inputs:
-      note:
+      deploy_cards:
         description: Note
 
 jobs:
@@ -14,4 +14,4 @@ jobs:
     steps:
     - name: Send greeting
       run: |
-        echo "::notice title=Deployment Note::${{ github.event.inputs.note }}"
+        echo "::notice title=Deployment Note::${{ github.event.inputs.deploy_cards }}"
