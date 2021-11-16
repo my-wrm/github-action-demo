@@ -2,6 +2,9 @@ name: Debug
 
 on:
   workflow_dispatch:
+    inputs:
+      note:
+        description: Note
 
 jobs:
 
@@ -11,4 +14,4 @@ jobs:
     steps:
     - name: Send greeting
       run: |
-        echo "::notice title=Card 1::ATX-98305"
+        echo "::notice title=Deployment Note::${{ github.event.inputs.note }}"
