@@ -31,5 +31,8 @@ jobs:
     - name: Test Deploy
       run: |
         echo "${{ matrix.server.name }}"
+    - name: Test Deploy IP
+      run: |
+        echo "${{ matrix.server.ip }}"
       
     
