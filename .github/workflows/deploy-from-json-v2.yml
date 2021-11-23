@@ -9,12 +9,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      deployment-matrix: ${{ steps.export-deployment-matrix.outputs.deployment-matrix }}
+      deployment-matrix: ${{ steps.export-deployment-matrix.outputs.config-matrix }}
     steps:
       - uses: actions/checkout@v2
       - name: Export deployment matrix
         id: export-deployment-matrix
-        uses: mildronize/import-json-action@v0.0.1
+        uses: mildronize/import-json-action@v0.0.2
         with:
           config-path: ./.github/workflows/config.json
 
@@ -23,7 +23,7 @@ jobs:
     needs: [ build ]
     strategy:
       matrix:
-        server: ${{ fromJson(needs.build.outputs.config-matrix) }}
+        server: ${{ fromJson(needs.build.outputs.deployment-matrix) }}
         
     steps:
     - name: Test Deploy
