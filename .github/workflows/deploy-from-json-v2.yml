@@ -16,7 +16,7 @@ jobs:
         id: export-deployment-matrix
         uses: mildronize/import-json-action@v0.0.1
         with:
-          conifg-path: ./.github/workflows/config.json
+          config-path: ./.github/workflows/config.json
 
   deploy:
     runs-on: ubuntu-latest
