@@ -23,7 +23,7 @@ jobs:
     needs: [ build ]
     strategy:
       matrix:
-        server: ${{ fromJson(needs.build.outputs.deployment-matrix) }}
+        server: ${{ fromJson(needs.build.outputs.config-matrix) }}
         
     steps:
     - name: Test Deploy
