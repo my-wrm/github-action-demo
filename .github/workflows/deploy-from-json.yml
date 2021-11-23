@@ -1,4 +1,5 @@
 # https://github.com/marketplace/actions/validate-json
+# https://stackoverflow.com/a/61919791
 name: Debug
 
 on:
