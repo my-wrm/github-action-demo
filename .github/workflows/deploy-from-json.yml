@@ -25,7 +25,7 @@ jobs:
     needs: [ build ]
     strategy:
       matrix:
-        server: ${{ fromJson(needs.build.outputs.deployment-matrix) }}
+        server: ${{ fromJson(needs.build.outputs.deployment-matrix).web }}
         
     steps:
     - name: Test Deploy
