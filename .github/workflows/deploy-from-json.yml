@@ -25,14 +25,15 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ build ]
     strategy:
-      matrix: ${{ fromJson(needs.build.outputs.deployment-matrix).web }}
+      matrix: 
+        server: ${{ fromJson(needs.build.outputs.deployment-matrix).web }}
         
     steps:
     - name: Test Deploy
       run: |
-        echo "${{ matrix.name }}"
+        echo "${{ matrix.server.name }}"
     - name: Test Deploy IP
       run: |
-        echo "${{ matrix.ip }}"
+        echo "${{ matrix.server.ip }}"
       
     
