@@ -13,9 +13,9 @@ on:
 jobs:
 
   build:
-    if: ${{ github.event.inputs.run_db_migration == "true" }}
+    if: github.event.inputs.run_db_migration
     runs-on: ubuntu-latest
     steps:
     - name: Send greeting
       run: |
-        echo "::notice title=Deployment Note::${{ github.event.inputs.deploy_cards }}"
+        echo "::notice title=Deployment Note::${{ github.event.inputs.run_db_migration }}"
