@@ -5,12 +5,16 @@ on:
     inputs:
       deploy_cards:
         description: Note
+      run_db_migration:
+        type: boolean
+        default: "false"
+        description: Run DB Migration
 
 jobs:
 
   build:
+    if: github.event.inputs.run_db_migration == "true"
     runs-on: ubuntu-latest
-
     steps:
     - name: Send greeting
       run: |
