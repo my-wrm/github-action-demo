@@ -7,7 +7,7 @@ on:
         description: Note
       run_db_migration:
         type: boolean
-        default: "true"
+        default: 'true'
         description: Run DB Migration
 
 jobs:
