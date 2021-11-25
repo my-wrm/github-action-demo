@@ -7,13 +7,13 @@ on:
         description: Note
       run_db_migration:
         type: boolean
-        default: "false"
+        default: "true"
         description: Run DB Migration
 
 jobs:
 
   build:
-    if: github.event.inputs.run_db_migration == true
+    if: github.event.inputs.run_db_migration == "true"
     runs-on: ubuntu-latest
     steps:
     - name: Send greeting
