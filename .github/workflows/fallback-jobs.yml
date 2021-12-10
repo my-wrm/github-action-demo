@@ -10,7 +10,7 @@ jobs:
       - run: |
           echo "Renaming... "
           echo "Copying....."
-          exit 1
+          
           
   step2:
     needs: step1
@@ -19,6 +19,7 @@ jobs:
     steps:
       - run: |
           echo "deleting... "
+          exit 1
           
   step1-on-fail:
     needs: step1
