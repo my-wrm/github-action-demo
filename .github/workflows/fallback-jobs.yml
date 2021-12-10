@@ -40,7 +40,8 @@ jobs:
           
   step2-on-fail:
     needs: [step2]
-    if: ${{ needs.step2.result == 'failure' }}
+    if: failure()
+#     if: ${{ needs.step2.result == 'failure' }}
     runs-on: 'ubuntu-latest'
     steps:
       - run: |
