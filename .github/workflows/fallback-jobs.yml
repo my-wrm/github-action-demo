@@ -1,12 +1,28 @@
 name: Fallback Jobs
 
 on:
-  workflow_dispatch:
+  push:
 
 jobs:
-  build:
+  step1:
     runs-on: 'ubuntu-latest'
-
     steps:
       - run: |
-          echo "Test"
+          echo "Renaming... "
+          echo "Copying....."
+          
+  step1-on-success:
+    needs: step1
+    if: success()
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "deleting... "
+          
+  step1-on-fail:
+    needs: step1
+    if: failure()
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "reverting... "
