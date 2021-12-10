@@ -38,8 +38,8 @@ jobs:
           echo "Finish... "
           
   step2-on-fail:
-    needs: [step1, step2]
-    if: always() && (needs.step1.result == 'failure' || needs.step2.result == 'failure')
+    needs: [step2]
+    if: ${{ needs.step2.result != 'skipped' }}
     runs-on: 'ubuntu-latest'
     steps:
       - run: |
