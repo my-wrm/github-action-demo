@@ -39,7 +39,7 @@ jobs:
           
   step2-on-fail:
     needs: [step1, step2]
-    if: failure()
+    if: always() && (needs.step1.result == 'failure' || needs.step2.result == 'failure')
     runs-on: 'ubuntu-latest'
     steps:
       - run: |
