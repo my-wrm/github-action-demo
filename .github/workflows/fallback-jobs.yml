@@ -39,7 +39,7 @@ jobs:
           
   step2-on-fail:
     needs: step2
-    if: failure() && !cancelled()
+    if: ${{ success() == false }}
     runs-on: 'ubuntu-latest'
     steps:
       - run: |
