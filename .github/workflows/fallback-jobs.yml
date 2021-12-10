@@ -46,3 +46,4 @@ jobs:
           echo "Run when the delete failed"
           echo "delete dest"
           echo "Rename  Copy_dest -> dest"
+          echo "step2.result = ${{ needs.step2.result }}"
