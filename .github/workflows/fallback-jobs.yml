@@ -11,7 +11,7 @@ jobs:
           echo "Renaming... "
           echo "Copying....."
           
-  step1-on-success:
+  step2:
     needs: step1
     if: success()
     runs-on: 'ubuntu-latest'
@@ -21,6 +21,22 @@ jobs:
           
   step1-on-fail:
     needs: step1
+    if: failure()
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "reverting... "
+
+  step3:
+    needs: step2
+    if: success()
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "Finish... "
+          
+  step2-on-fail:
+    needs: step2
     if: failure()
     runs-on: 'ubuntu-latest'
     steps:
