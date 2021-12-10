@@ -10,6 +10,7 @@ jobs:
       - run: |
           echo "Renaming... "
           echo "Copying....."
+          exit 1
           
   step2:
     needs: step1
@@ -25,7 +26,8 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - run: |
-          echo "reverting... "
+          echo "Run when the copy failed"
+          echo "Rename  Copy_dest -> dest"
 
   step3:
     needs: step2
@@ -41,4 +43,6 @@ jobs:
     runs-on: 'ubuntu-latest'
     steps:
       - run: |
-          echo "reverting... "
+          echo "Run when the delete failed"
+          echo "delete dest"
+          echo "Rename  Copy_dest -> dest"
