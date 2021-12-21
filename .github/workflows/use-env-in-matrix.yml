@@ -3,6 +3,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ matrix.site }}
     strategy:
       matrix:
        include:
