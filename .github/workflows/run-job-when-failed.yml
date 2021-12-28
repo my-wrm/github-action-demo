@@ -45,6 +45,7 @@ jobs:
       run: |
         RANDOM_NUMBER=$((1 + $RANDOM % 100))
         echo $RANDOM_NUMBER
+        sleep 10
         if [ $RANDOM_NUMBER -gt 75 ]; then
           exit 1
         fi
