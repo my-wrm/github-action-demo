@@ -1,0 +1,63 @@
+name: Run job when failed
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Run with env name ${{ matrix.env }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [cat, dog, ant, fish]
+    steps:
+
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+
+    - name: Log date => ${{ steps.date.outputs.date }}
+      run: echo "${{ steps.date.outputs.date }}"
+
+    - name: Set default run status
+      id: default-run-status
+      run: echo "::set-output name=last_run_status::default" > last_run_status
+
+    - name: Log default last_run_status => ${{ steps.default-run-status.outputs.last_run_status }}
+      run: echo "${{ steps.default-run-status.outputs.last_run_status }}"
+
+    - name: Restore last run status
+      id: last_run
+      uses: actions/cache@v2
+      with:
+        path: |
+          last_run_status
+        key: ${{ github.run_id }}-${{ matrix.env }}-${{ steps.date.outputs.date }}
+        restore-keys: |
+          ${{ github.run_id }}-${{ matrix.env }}-
+          
+    - name: Set last run status (after restore)
+      id: last_run_status
+      run: cat last_run_status
+
+    - name: Log last_run_status (after restore)  => ${{ steps.last_run_status.outputs.last_run_status }}
+      run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
+
+    - name: Use env ${{ matrix.env }}
+      id: test_run
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: |
+        RANDOM_NUMBER=$((1 + $RANDOM % 100))
+        echo $RANDOM_NUMBER
+        sleep 10
+        if [ $RANDOM_NUMBER -gt 75 ]; then
+          exit 1
+        fi
+    
+    - name: Save run status
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: |
+        echo "::set-output name=last_run_status::${{ steps.test_run.outcome }}" > last_run_status
+        cat last_run_status

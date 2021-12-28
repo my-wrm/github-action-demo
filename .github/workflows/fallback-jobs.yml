@@ -1,0 +1,51 @@
+name: Fallback Jobs
+
+on:
+  push:
+
+jobs:
+  step1:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "Renaming... "
+          echo "Copying....."
+          
+          
+  step2:
+    needs: step1
+    if: success()
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "deleting... "
+          exit 1
+          
+  step1-on-fail:
+    needs: step1
+    if: failure()
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "Run when the copy failed"
+          echo "Rename  Copy_dest -> dest"
+
+  step3:
+    needs: step2
+    if: success()
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "Finish... "
+          
+  step2-on-fail:
+    needs: [step2]
+    if: failure()
+#     if: ${{ needs.step2.result == 'failure' }}
+    runs-on: 'ubuntu-latest'
+    steps:
+      - run: |
+          echo "Run when the delete failed"
+          echo "delete dest"
+          echo "Rename  Copy_dest -> dest"
+          echo "step2.result = ${{ needs.step2.result }}"

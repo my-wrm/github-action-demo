@@ -1,0 +1,15 @@
+name: Input Matrix
+on:
+  workflow_dispatch:
+    inputs:
+      cards:
+        description: Cards
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        include: ${{fromJSON(github.event.inputs.cards)}}
+    steps:
+      - run: echo "${{ matrix }}"
