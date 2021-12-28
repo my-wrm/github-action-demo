@@ -1,0 +1,53 @@
+name: "Enable Retriable Failed Jobs"
+description: "Some time jobs can failed in unknown cause, this action will help to retry only failed jobs"
+
+inputs:
+  unique_cache_key:
+    description: "Unique key for cache ex. matrix value"
+    require: true
+  preview_label:
+    description: "Preview Label for displaying deployed cards"
+    require: true 
+  github_token: 
+    description: "github access token"
+    required: true 
+
+runs:
+  using: "composite"
+  steps:
+    - name: Get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+      shell: bash
+
+    # - name: Log date => ${{ steps.date.outputs.date }}
+    #   run: echo "${{ steps.date.outputs.date }}"
+    #   shell: bash
+
+    - name: Set default run status
+      id: default-run-status
+      run: echo "::set-output name=last_run_status::default" > last_run_status
+      shell: bash
+
+    # - name: Log default last_run_status => ${{ steps.default-run-status.outputs.last_run_status }}
+    #   run: echo "${{ steps.default-run-status.outputs.last_run_status }}"
+    #   shell: bash
+
+    - name: Restore last run status
+      id: last_run
+      uses: actions/cache@v2
+      with:
+        path: |
+          last_run_status
+        key: ${{ github.run_id }}-${{ inputs.unique_cache_key }}-${{ steps.date.outputs.date }}
+        restore-keys: |
+          ${{ github.run_id }}-${{ inputs.unique_cache_key }}-
+          
+    - name: Set last run status (after restore)
+      id: last_run_status
+      run: cat last_run_status
+      shell: bash
+
+    - name: Log last_run_status (after restore)  => ${{ steps.last_run_status.outputs.last_run_status }}
+      run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
+      shell: bash
