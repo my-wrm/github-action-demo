@@ -42,7 +42,7 @@ jobs:
       id: last_run_status
       run: cat last_run_status
 
-    - name: Log last_run_status (after restore)  => ${{ stepslast_run_status.outputs.last_run_status }}
+    - name: Log last_run_status (after restore)  => ${{ steps.last_run_status.outputs.last_run_status }}
       run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
 
     - name: Use env ${{ matrix.env }}
