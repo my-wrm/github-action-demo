@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
-    - run: |
+    - if: ${{ github.event.workflow_run.run_attempt <= 3 }}
+      run: |
         gh run rerun ${{ github.event.workflow_run.id }} --repo ${{ github.event.repository.full_name }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
