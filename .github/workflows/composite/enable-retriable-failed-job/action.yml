@@ -10,7 +10,7 @@ inputs:
 outputs:
   last_run_status:
     description: "Last status of running job"
-    value: ${{ steps.last_run_status.outputs.last_run_status }}
+    value: ${{ steps.set_last_run_status.outputs.last_run_status }}
 
 runs:
   using: "composite"
@@ -20,18 +20,18 @@ runs:
       run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
       shell: bash
 
-    - name: Log date => ${{ steps.date.outputs.date }}
-      run: echo "${{ steps.date.outputs.date }}"
-      shell: bash
+    # - name: Log date => ${{ steps.date.outputs.date }}
+    #   run: echo "${{ steps.date.outputs.date }}"
+    #   shell: bash
 
     - name: Set default run status
       id: default-run-status
       run: echo "::set-output name=last_run_status::default" > last_run_status
       shell: bash
 
-    - name: Log default last_run_status => ${{ steps.default-run-status.outputs.last_run_status }}
-      run: echo "${{ steps.default-run-status.outputs.last_run_status }}"
-      shell: bash
+    # - name: Log default last_run_status => ${{ steps.default-run-status.outputs.last_run_status }}
+    #   run: echo "${{ steps.default-run-status.outputs.last_run_status }}"
+    #   shell: bash
 
     - name: Restore last run status
       id: last_run
@@ -44,13 +44,13 @@ runs:
           ${{ github.run_id }}-${{ inputs.cache_key }}-
           
     - name: Set last run status (after restore)
-      id: last_run_status
+      id: set_last_run_status
       run: cat last_run_status
       shell: bash
 
-    - name: Log last_run_status (after restore)  => ${{ steps.last_run_status.outputs.last_run_status }}
-      run: | 
-        echo "${{ steps.last_run_status.outputs.last_run_status }}"
-        ls -la
-        pwd
-      shell: bash
+    # - name: Log last_run_status (after restore)  => ${{ steps.last_run_status.outputs.last_run_status }}
+    #   run: | 
+    #     echo "${{ steps.last_run_status.outputs.last_run_status }}"
+    #     ls -la
+    #     pwd
+    #   shell: bash
