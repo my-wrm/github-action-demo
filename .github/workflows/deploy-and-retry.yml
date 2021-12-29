@@ -75,7 +75,7 @@ jobs:
         RANDOM_NUMBER=$((1 + $RANDOM % 100))
         echo $RANDOM_NUMBER
         sleep 10
-        if [ $RANDOM_NUMBER -gt 35 ]; then
+        if [ $RANDOM_NUMBER -gt 70 ]; then
           exit 1
         fi
     
