@@ -7,6 +7,11 @@ inputs:
     require: false
     default: default_key
 
+outputs:
+  last_run_status:
+    description: "Last status of running job"
+    value: ${{ steps.last_run_status.outputs.last_run_status }}
+
 runs:
   using: "composite"
   steps:
@@ -39,7 +44,7 @@ runs:
           ${{ github.run_id }}-${{ inputs.cache_key }}-
           
     - name: Set last run status (after restore)
-      # id: last_run_status
+      id: last_run_status
       run: cat last_run_status
       shell: bash
 
