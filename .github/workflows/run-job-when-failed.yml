@@ -8,6 +8,7 @@ jobs:
   build:
     name: Run with env name ${{ matrix.env }}
     runs-on: ubuntu-latest
+    timeout-minutes: 1
     strategy:
       fail-fast: false
       matrix:
