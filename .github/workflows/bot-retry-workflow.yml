@@ -2,7 +2,7 @@ name: Bot Retry Workflow
 
 on:
   workflow_run:
-    workflows: ["Run job when failed"]
+    workflows: ["Deploy Job and retry"]
     types: [completed]
 
 jobs:

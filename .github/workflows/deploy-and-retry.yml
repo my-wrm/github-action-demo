@@ -43,11 +43,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        env: [cat]
+        env: [cat, dog, ant, fish]
     steps:
 
     - name: Restore last build artifact from cache
-      id: artifact-from-cache
       uses: actions/cache@v2
       with:
         path: |
