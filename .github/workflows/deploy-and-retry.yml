@@ -1,0 +1,63 @@
+name: Deploy Job and retry 
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    
+    - name: Build Job
+      run: |
+        sleep 10
+        echo "Build Success" > ./build/status.txt
+
+    - name: Upload Web artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: web-build
+        path: ./build
+        retention-days: 1 
+
+  deploy:
+    name: Run with env name ${{ matrix.env }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [cat]
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: web-build
+
+    - name: Log Job
+      run: |
+        cat ./status.txt
+
+    - uses: actions/checkout@v2
+    - name: Call Composite Enable Retriable Failed Jobs
+      id: last_run_status
+      uses: ./.github/workflows/composite/enable-retriable-failed-job
+      with:
+        cache_key: ${{ matrix.env }}
+
+    - name: Use env ${{ matrix.env }}
+      id: test_run
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: |
+        RANDOM_NUMBER=$((1 + $RANDOM % 100))
+        echo $RANDOM_NUMBER
+        sleep 10
+        if [ $RANDOM_NUMBER -gt 35 ]; then
+          exit 1
+        fi
+    
+    - name: Save run status
+      if: steps.last_run_status.outputs.last_run_status != 'success'
+      run: |
+        echo "::set-output name=last_run_status::${{ steps.test_run.outcome }}" > last_run_status
