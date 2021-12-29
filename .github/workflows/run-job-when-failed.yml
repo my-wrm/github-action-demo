@@ -14,36 +14,42 @@ jobs:
         env: [cat, dog, ant, fish]
     steps:
 
-    - name: Get current date
-      id: date
-      run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
+    # - name: Get current date
+    #   id: date
+    #   run: echo "::set-output name=date::$(date +'%Y-%m-%dT%H:%M:%S')"
 
-    - name: Log date => ${{ steps.date.outputs.date }}
-      run: echo "${{ steps.date.outputs.date }}"
+    # - name: Log date => ${{ steps.date.outputs.date }}
+    #   run: echo "${{ steps.date.outputs.date }}"
 
-    - name: Set default run status
-      id: default-run-status
-      run: echo "::set-output name=last_run_status::default" > last_run_status
+    # - name: Set default run status
+    #   id: default-run-status
+    #   run: echo "::set-output name=last_run_status::default" > last_run_status
 
-    - name: Log default last_run_status => ${{ steps.default-run-status.outputs.last_run_status }}
-      run: echo "${{ steps.default-run-status.outputs.last_run_status }}"
+    # - name: Log default last_run_status => ${{ steps.default-run-status.outputs.last_run_status }}
+    #   run: echo "${{ steps.default-run-status.outputs.last_run_status }}"
 
-    - name: Restore last run status
-      id: last_run
-      uses: actions/cache@v2
-      with:
-        path: |
-          last_run_status
-        key: ${{ github.run_id }}-${{ matrix.env }}-${{ steps.date.outputs.date }}
-        restore-keys: |
-          ${{ github.run_id }}-${{ matrix.env }}-
+    # - name: Restore last run status
+    #   id: last_run
+    #   uses: actions/cache@v2
+    #   with:
+    #     path: |
+    #       last_run_status
+    #     key: ${{ github.run_id }}-${{ matrix.env }}-${{ steps.date.outputs.date }}
+    #     restore-keys: |
+    #       ${{ github.run_id }}-${{ matrix.env }}-
           
-    - name: Set last run status (after restore)
-      id: last_run_status
-      run: cat last_run_status
+    # - name: Set last run status (after restore)
+    #   id: last_run_status
+    #   run: cat last_run_status
 
-    - name: Log last_run_status (after restore)  => ${{ steps.last_run_status.outputs.last_run_status }}
-      run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
+    # - name: Log last_run_status (after restore)  => ${{ steps.last_run_status.outputs.last_run_status }}
+    #   run: echo "${{ steps.last_run_status.outputs.last_run_status }}"
+
+    - uses: actions/checkout@v2
+    - name: Call Composite Enable Retriable Failed Jobs
+      uses: ./.github/workflows/composite/enable-retriable-failed-job
+      with:
+        cache_key: ${{ matrix.env }}
 
     - name: Use env ${{ matrix.env }}
       id: test_run
