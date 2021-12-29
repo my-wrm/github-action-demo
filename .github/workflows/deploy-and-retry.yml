@@ -6,24 +6,34 @@ on:
 
 env:
   artifact_web_name: web-build
+  cache_build_key: web_build_job
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+
+    - name: Restore last build artifact from cache
+      id: artifact-from-cache
+      uses: actions/cache@v2
+      with:
+        path: |
+          ./build
+        key: ${{ github.run_id }}-${{ env.cache_build_key }}
     
     - name: Build Job
+      if: steps.artifact-from-cache.outputs.cache-hit != 'true'
       run: |
         sleep 10
         mkdir build
         echo "Build Success" > ./build/status.txt
 
-    - name: Upload Web artifact for deployment job
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ env.artifact_web_name }}
-        path: ./build
-        retention-days: 1 
+    # - name: Upload Web artifact for deployment job
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: ${{ env.artifact_web_name }}
+    #     path: ./build
+    #     retention-days: 1 
 
   deploy:
     needs: build
@@ -35,14 +45,22 @@ jobs:
       matrix:
         env: [cat]
     steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v2
+
+    - name: Restore last build artifact from cache
+      id: artifact-from-cache
+      uses: actions/cache@v2
       with:
-        name: ${{ env.artifact_web_name }}
+        path: |
+          ./build
+        key: ${{ github.run_id }}-${{ env.cache_build_key }}
+    # - name: Download artifact from build job
+    #   uses: actions/download-artifact@v2
+    #   with:
+    #     name: ${{ env.artifact_web_name }}
 
     - name: Log Job
       run: |
-        cat ./status.txt
+        cat ./build/status.txt
 
     - uses: actions/checkout@v2
     - name: Call Composite Enable Retriable Failed Jobs
