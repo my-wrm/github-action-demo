@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
     steps:
-    - if: ${{ github.event.workflow_run.run_attempt <= 2 }}
+    # Retry 2 times
+    - if: ${{ github.event.workflow_run.run_attempt < 2 }}
       run: |
         echo "run_attempt: ${{ github.event.workflow_run.run_attempt  }}"
         gh run rerun ${{ github.event.workflow_run.id }}
