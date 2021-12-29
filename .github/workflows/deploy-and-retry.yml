@@ -12,6 +12,7 @@ jobs:
     - name: Build Job
       run: |
         sleep 10
+        mkdir build
         echo "Build Success" > ./build/status.txt
 
     - name: Upload Web artifact for deployment job
