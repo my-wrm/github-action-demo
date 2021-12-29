@@ -67,3 +67,5 @@ jobs:
       run: |
         echo "::set-output name=last_run_status::${{ steps.test_run.outcome }}" > last_run_status
         cat last_run_status
+        ls -la
+        pwd
