@@ -45,7 +45,10 @@ jobs:
       matrix:
         env: [cat, dog, ant, fish]
     steps:
-
+    - name: Log needs
+      run: |
+        echo "${{ toJSON(needs) }}";
+        echo "${{ toJSON(needs.build) }}";
     - name: Restore last build artifact from cache
       uses: actions/cache@v2
       with:
