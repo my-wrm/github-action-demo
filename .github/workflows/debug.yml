@@ -12,13 +12,6 @@ jobs:
     if: always()
     runs-on: ubuntu-latest
     steps:
-    - name: Send greeting
-      run: |
-        echo "${{ GITHUB_WORKFLOW }}"
     - name: Send greeting workflow_dispatch
       run: |
         echo "${{ env.GITHUB_WORKFLOW }}"
-    - name: Send greeting workflow_run
-      run: |
-        echo "${ GITHUB_WORKFLOW }"
-        
