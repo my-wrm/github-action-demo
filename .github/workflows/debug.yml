@@ -15,3 +15,10 @@ jobs:
     - name: Send greeting
       run: |
         echo "${{ toJSON(github.event) }}"
+    - name: Send greeting workflow_dispatch
+      run: |
+        echo "${{ toJSON(github.event.workflow_dispatch) }}"
+    - name: Send greeting workflow_run
+      run: |
+        echo "${{ toJSON(github.event.workflow_run) }}"
+        
