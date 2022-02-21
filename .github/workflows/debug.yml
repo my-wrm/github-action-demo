@@ -6,12 +6,11 @@ on:
       deploy_cards:
         description: Note
         
-env:
-  github_workflow: $GITHUB_WORKFLOW
-  github_workflow_url: "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+# env:
+#   github_workflow: $GITHUB_WORKFLOW
+#   github_workflow_url: "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
 jobs:
-
   build:
     if: always()
     runs-on: ubuntu-latest
@@ -23,11 +22,57 @@ jobs:
       run: |
         echo "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
         
-  notify:
-    if: success()
-    runs-on: ubuntu-latest
-    steps:
-    
+  # notify:
+  #   if: success()
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Send custom JSON data to Slack workflow
+  #     id: slack
+  #     uses: slackapi/slack-github-action@v1.18.0
+  #     with:
+  #       # For posting a rich message using Block Kit
+  #       payload: |
+  #         {
+  #           "attachments": [
+  #             {
+  #               "mrkdwn_in": ["text"],
+  #                 "color": "#36a64f",
+  #                 "pretext": "Optional pre-text that appears above the attachment block",
+  #                 "author_name": "author_name",
+  #                 "author_link": "http://flickr.com/bobby/",
+  #                 "author_icon": "https://placeimg.com/16/16/people",
+  #                 "title": "title",
+  #                 "title_link": "https://api.slack.com/",
+  #                 "text": "Optional `text` that appears within the attachment",
+  #                 "fields": [
+  #                     {
+  #                         "title": "A field's title",
+  #                         "value": "This field's value",
+  #                         "short": false
+  #                     },
+  #                     {
+  #                         "title": "A short field's title",
+  #                         "value": "A short field's value",
+  #                         "short": true
+  #                     },
+  #                     {
+  #                         "title": "A second short field's title",
+  #                         "value": "A second short field's value",
+  #                         "short": true
+  #                     }
+  #                 ],
+  #                 "thumb_url": "http://placekitten.com/g/200/200",
+  #                 "footer": "footer",
+  #                 "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
+  #                 "ts": 123456789
+  #             }
+  #           ]
+  #         }
+  #     env:
+  #       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+  #       SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
+
 #     - name: Set COMMIT_MESSAGE
 #       run: echo "COMMIT_MESSAGE=${{ github.event.head_commit.message }}" | tr '\n' ' ' >> $GITHUB_ENV
       
@@ -59,49 +104,3 @@ jobs:
 #               ]
 #             }
 #           ]
-          
-    - name: Send custom JSON data to Slack workflow
-      id: slack
-      uses: slackapi/slack-github-action@v1.18.0
-      with:
-        # For posting a rich message using Block Kit
-        payload: |
-          {
-            "attachments": [
-              {
-                "mrkdwn_in": ["text"],
-                  "color": "#36a64f",
-                  "pretext": "Optional pre-text that appears above the attachment block",
-                  "author_name": "author_name",
-                  "author_link": "http://flickr.com/bobby/",
-                  "author_icon": "https://placeimg.com/16/16/people",
-                  "title": "title",
-                  "title_link": "https://api.slack.com/",
-                  "text": "Optional `text` that appears within the attachment",
-                  "fields": [
-                      {
-                          "title": "A field's title",
-                          "value": "This field's value",
-                          "short": false
-                      },
-                      {
-                          "title": "A short field's title",
-                          "value": "A short field's value",
-                          "short": true
-                      },
-                      {
-                          "title": "A second short field's title",
-                          "value": "A second short field's value",
-                          "short": true
-                      }
-                  ],
-                  "thumb_url": "http://placekitten.com/g/200/200",
-                  "footer": "footer",
-                  "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-                  "ts": 123456789
-              }
-            ]
-          }
-      env:
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
