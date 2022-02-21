@@ -1,4 +1,4 @@
-name: Debug
+name: Debug Yahhhhhhhhh
 
 on:
   workflow_dispatch:
@@ -14,11 +14,11 @@ jobs:
     steps:
     - name: Send greeting
       run: |
-        echo "${{ toJSON(github.event) }}"
+        echo "${{ GITHUB_WORKFLOW }}"
     - name: Send greeting workflow_dispatch
       run: |
-        echo "${{ toJSON(github.event.workflow_dispatch) }}"
+        echo "${{ env.GITHUB_WORKFLOW }}"
     - name: Send greeting workflow_run
       run: |
-        echo "${{ toJSON(github.event.workflow_run) }}"
+        echo "${ GITHUB_WORKFLOW }"
         
