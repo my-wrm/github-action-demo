@@ -4,12 +4,40 @@ on:
   workflow_run:
     workflows: 
       - "Debug Yahhhhhhhhh"
-    types: [completed]
+    types: [completed, requested]
 
 jobs:
+
+  on-requested:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.status == 'requested' }}
+    steps:
+      - run: echo 'The triggering workflow passed'
+      - run: echo '${{ toJSON(github.event.workflow_run) }}'
+      - name: Send custom JSON data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.18.0
+        with:
+          # For posting a rich message using Block Kit
+          payload: |
+            {
+              "attachments": [
+                {
+                  "mrkdwn_in": ["pretext","footer"],
+                  "color": "#dddddd",
+                  "pretext": "I'll deploy with <${{ github.event.workflow_run.html_url }}|${{ github.event.workflow_run.name }} #${{ github.event.workflow_run.run_number }}>",
+                  "footer": "<${{ github.event.workflow_run.head_repository.html_url }}|${{ github.event.workflow_run.head_repository.full_name }}>",
+                  "footer_icon": "https://github.githubassets.com/favicon.ico"
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+
   on-success:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.status == 'completed' }}
     steps:
       - run: echo 'The triggering workflow passed'
       - run: echo '${{ toJSON(github.event.workflow_run) }}'
@@ -43,6 +71,6 @@ jobs:
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
   on-failure:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    if: ${{ github.event.workflow_run.conclusion == 'failure'  && github.event.workflow_run.status == 'completed'  }}
     steps:
       - run: echo 'The triggering workflow failed'
