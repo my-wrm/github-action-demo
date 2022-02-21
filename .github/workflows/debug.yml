@@ -14,4 +14,9 @@ jobs:
     steps:
     - name: Send greeting workflow_dispatch
       run: |
-        echo "${{ env.GITHUB_WORKFLOW }}"
+        echo "$GITHUB_WORKFLOW"
+    - name: Send greeting 
+      run: |
+        echo "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+        
+        
