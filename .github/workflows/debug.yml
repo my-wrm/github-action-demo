@@ -14,4 +14,4 @@ jobs:
     steps:
     - name: Send greeting
       run: |
-        echo "${{ github.event }}"
+        echo "${{ toJSON(github.event) }}"
