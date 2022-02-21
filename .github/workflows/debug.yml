@@ -5,6 +5,10 @@ on:
     inputs:
       deploy_cards:
         description: Note
+        
+env:
+  github_workflow: $GITHUB_WORKFLOW
+  github_workflow_url: "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
 
 jobs:
 
