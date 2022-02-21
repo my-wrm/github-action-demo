@@ -23,19 +23,18 @@ jobs:
             {
               "attachments": [
                 {
-                  "mrkdwn_in": ["text", "pretext","footer"],
-                    "color": "good",
-                    "pretext": "Deploy completed with <${{ github.event.workflow_run.html_url }}|${{ github.event.workflow_run.name }} #${{ github.event.workflow_run.run_number }}>",
-                    "text": "Optional `text` that appears within the attachment",
-                    "fields": [
-                        {
-                            "title": "Git Commit Message",
-                            "value": "${{ github.event.workflow_run.head_commit.message }}",
-                            "short": false
-                        }
-                    ],
-                    "footer": "<${{ github.event.workflow_run.head_repository.html_url }}|${{ github.event.workflow_run.head_repository.full_name }}>",
-                    "footer_icon": "https://github.githubassets.com/favicon.ico",
+                  "mrkdwn_in": ["pretext","footer"],
+                  "color": "good",
+                  "pretext": "Deploy completed with <${{ github.event.workflow_run.html_url }}|${{ github.event.workflow_run.name }} #${{ github.event.workflow_run.run_number }}>",
+                  "fields": [
+                      {
+                          "title": "Git Commit Message",
+                          "value": "${{ github.event.workflow_run.head_commit.message }}",
+                          "short": false
+                      }
+                  ],
+                  "footer": "<${{ github.event.workflow_run.head_repository.html_url }}|${{ github.event.workflow_run.head_repository.full_name }}>",
+                  "footer_icon": "https://github.githubassets.com/favicon.ico"
                 }
               ]
             }
