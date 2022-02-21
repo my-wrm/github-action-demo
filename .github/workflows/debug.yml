@@ -5,17 +5,13 @@ on:
     inputs:
       deploy_cards:
         description: Note
-      run_db_migration:
-        type: boolean
-        default: 'true'
-        description: Run DB Migration
 
 jobs:
 
   build:
-    if: github.event.inputs.run_db_migration
+    if: always()
     runs-on: ubuntu-latest
     steps:
     - name: Send greeting
       run: |
-        echo "::notice title=Deployment Note::${{ github.event.inputs.run_db_migration }}"
+        echo "${{ github.event }}"
