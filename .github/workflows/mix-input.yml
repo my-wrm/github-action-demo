@@ -48,9 +48,9 @@ jobs:
           - env_name: Matrix_Env_2
             enabled: ${{ github.event.inputs.run_matrix_env_2 }} 
     steps:
-      - if: matrix.enabled == 'true'
+      - if: ${{ matrix.enabled == 'true' }}
         name: check enabled
-        run: echo "Enabled !"
+        run: echo "Enabled is ${{ matrix.enabled }}"
       - name: Send greeting
         run: echo "debugging"
         
