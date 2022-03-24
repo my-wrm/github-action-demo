@@ -4,25 +4,26 @@ name: Mixed inputs
 on:
   workflow_dispatch:
     inputs:
-      card1:
-        description: Card 1
-      card2:
-        description: Card 2
+      run_job_1:
+        type: boolean
+        default: 'true'
+        description: Run Job 1
+      run_job_2:
+        type: boolean
+        default: 'false'
+        description: Run Job 2
 
 jobs:
-  deployment-note:
-    name: 📝
+  job1:
+    if: github.event.inputs.run_job_1 == 'true'
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        note: ["${{ github.event.inputs.card1 }}", "${{ github.event.inputs.card2 }}"]
     steps:
       - name: Send greeting
         run: echo "debugging"
-
-  build:
+        
+  job2:
+    if: github.event.inputs.run_job_2 == 'true'
     runs-on: ubuntu-latest
-
     steps:
-    - name: Send greeting
-      run: echo "${{ github.event.inputs.note }}"
+      - name: Send greeting
+        run: echo "debugging"
