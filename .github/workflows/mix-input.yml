@@ -52,6 +52,9 @@ jobs:
       - if: ${{ matrix.enabled == 'true' }}
         id: check-enabled
         run: echo "Enabled is ${{ matrix.enabled }}"
+      - if: steps.check-enabled.conclusion == 'skipped'
+        name: Report Skipped Jobs
+        run: echo "::notice title=Skipped Job::${{ matrix.env_name }}"
       - if: steps.check-enabled.conclusion != 'skipped'
         name: Send greeting
         run: echo "==== ${{ steps.check-enabled.conclusion }}"
