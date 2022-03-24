@@ -12,6 +12,14 @@ on:
         type: boolean
         default: 'false'
         description: Run Job 2
+      run_matrix_env_1:
+        type: boolean
+        default: 'true'
+        description: Run Matrix Env 1
+      run_matrix_env_2:
+        type: boolean
+        default: 'false'
+        description: Run Matrix Env 2
 
 jobs:
   job1:
@@ -27,3 +35,24 @@ jobs:
     steps:
       - name: Send greeting
         run: echo "debugging"
+        
+  job-matrix:
+    name: 'Job: ${{ matrix.env_name }}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - env_name: Matrix_Env_1
+            enabled: ${{ github.event.inputs.run_matrix_env_1 }} 
+          - env_name: Matrix_Env_2
+            enabled: ${{ github.event.inputs.run_matrix_env_2 }} 
+    steps:
+      - if: matrix.enabled == 'true'
+        name: check enabled
+        run: echo "Enabled !"
+      - name: Send greeting
+        run: echo "debugging"
+        
+      
+  
