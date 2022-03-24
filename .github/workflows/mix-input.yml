@@ -37,7 +37,6 @@ jobs:
         run: echo "debugging"
         
   job-matrix:
-    if: ${{ matrix.enabled == 'true' }}
     name: 'Job: ${{ matrix.env_name }}'
     runs-on: ubuntu-latest
     strategy:
@@ -49,11 +48,11 @@ jobs:
           - env_name: Matrix_Env_2
             enabled: ${{ github.event.inputs.run_matrix_env_2 }} 
     steps:
-#       - if: ${{ matrix.enabled == 'true' }}
-#         name: check enabled
-#         run: echo "Enabled is ${{ matrix.enabled }}"
+      - if: ${{ matrix.enabled == 'true' }}
+        id: check-enabled
+        run: echo "Enabled is ${{ matrix.enabled }}"
       - name: Send greeting
-        run: echo "debugging"
+        run: echo "==== ${{ steps.check-enabled.conclusion }}"
         
       
   
