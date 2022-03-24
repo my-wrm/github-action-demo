@@ -1,4 +1,5 @@
 # https://github.blog/changelog/2021-11-10-github-actions-input-types-for-manual-workflows/
+# https://stackoverflow.com/questions/60589373/how-to-force-to-exit-in-github-actions-step
 name: Mixed inputs
 
 on:
@@ -51,8 +52,10 @@ jobs:
       - if: ${{ matrix.enabled == 'true' }}
         id: check-enabled
         run: echo "Enabled is ${{ matrix.enabled }}"
-      - name: Send greeting
+      - if: steps.s1.conclusion != 'skipped'
+        name: Send greeting
         run: echo "==== ${{ steps.check-enabled.conclusion }}"
         
+      
       
   
