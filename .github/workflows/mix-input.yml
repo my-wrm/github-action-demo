@@ -52,7 +52,7 @@ jobs:
       - if: ${{ matrix.enabled == 'true' }}
         id: check-enabled
         run: echo "Enabled is ${{ matrix.enabled }}"
-      - if: steps.s1.conclusion != 'skipped'
+      - if: steps.check-enabled.conclusion != 'skipped'
         name: Send greeting
         run: echo "==== ${{ steps.check-enabled.conclusion }}"
         
