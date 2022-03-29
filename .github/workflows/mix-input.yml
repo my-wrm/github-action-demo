@@ -59,6 +59,14 @@ jobs:
         name: Send greeting
         run: echo "==== ${{ steps.check-enabled.conclusion }}"
         
-      
+  summary:
+    needs: 
+      - job1
+      - job2 
+      - job-matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send greeting
+        run: echo "debugging"
       
   
