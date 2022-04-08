@@ -10,6 +10,9 @@ env:
 jobs:
   pre:
     runs-on: ubuntu-latest
+    outputs:
+      password_cat: ${{ steps.main.outputs.password_cat }}
+      password_dog: ${{ steps.main.outputs.password_dog }}
     steps:
       - id: main
         run: |
