@@ -29,5 +29,5 @@ jobs:
 
     - name: test matrix value
       run: |
-        Write-Host "Hello ${{ needs.pre.outputs[format(env.template,matrix.animal)]  }}"
+        echo "Hello ${{ needs.pre.outputs[format(env.template,matrix.animal)]  }}"
 
