@@ -3,6 +3,9 @@ name: Demo Matrix
 on:
   push:
   workflow_dispatch:
+  
+env:
+  template: password_{0}
 
 jobs:
   pre:
@@ -26,5 +29,5 @@ jobs:
 
     - name: test matrix value
       run: |
-        Write-Host "Hello ${{ needs.pre.outputs[format("password_{0}",matrix.animal)]  }}"
+        Write-Host "Hello ${{ needs.pre.outputs[format(env.template,matrix.animal)]  }}"
 
