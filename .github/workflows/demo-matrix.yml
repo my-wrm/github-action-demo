@@ -1,20 +1,30 @@
 name: Demo Matrix
 
 on:
+  push:
   workflow_dispatch:
 
 jobs:
+  pre:
+    runs-on: ubuntu-latest
+    steps:
+      - id: main
+        run: |
+          echo "::set-output name=password_cat::catcat"
+          echo "::set-output name=password_dog::dogdog"
+        
   build:
-    runs-on: 'windows-latest'
+    runs-on: 'ubuntu-latest'
+    needs: pre
     strategy:
       matrix:
-        test-path: 
-          - path1
-          - path2
+        animal: 
+          - cat
+          - dog
 
     steps:
 
     - name: test matrix value
       run: |
-        Write-Host "Hello ${{ matrix.test-path }}"
+        Write-Host "Hello ${{ needs.pre.outputs[format("password_{0}",matrix.animal)]  }}"
 
