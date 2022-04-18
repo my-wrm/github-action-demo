@@ -25,4 +25,6 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - run: echo '{"test":"value"}' | jq ".test"
+        shell: bash
       - run: echo '{"test":"value"}' | yq ".test"
+        shell: bash
