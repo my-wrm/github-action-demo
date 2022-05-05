@@ -16,8 +16,9 @@ jobs:
     - name: Export deployment matrix
       id: export-deployment-matrix
       run: |
-        JSON="$(cat ./.github/workflows/deployment-config.json)"
-        echo "::set-output name=deployment-matrix::$JSON"
+        npm install --only=prod
+        node ./from-json/example.js deployment-matrix
+      working-directory: ./.github/workflows/configs
 
     # - name: Export deployment matrix
     #   id: export-deployment-matrix

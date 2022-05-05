@@ -1,0 +1,20 @@
+{
+  "name": "workflow-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "typecheck": "tsc --project tsconfig.json",
+    "format": "prettier --config .prettierrc '**/*.+(js|ts)' --write"
+  },
+  "author": "Thada",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.7.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.31",
+    "prettier": "^2.6.2",
+    "typescript": "^4.6.4"
+  }
+}
