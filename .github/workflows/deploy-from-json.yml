@@ -3,7 +3,7 @@
 name: Deploy from JSON (Raw)
 
 on:
-  push:
+  workflow_dispatch:
 
 jobs:
   build:
