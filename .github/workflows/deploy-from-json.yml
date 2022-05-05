@@ -4,6 +4,7 @@ name: Deploy from JSON (Raw)
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   build:
@@ -16,10 +17,16 @@ jobs:
       id: export-deployment-matrix
       run: |
         JSON="$(cat ./.github/workflows/deployment-config.json)"
-        JSON="${JSON//'%'/'%25'}"
-        JSON="${JSON//$'\n'/'%0A'}"
-        JSON="${JSON//$'\r'/'%0D'}"
         echo "::set-output name=deployment-matrix::$JSON"
+
+    # - name: Export deployment matrix
+    #   id: export-deployment-matrix
+    #   run: |
+    #     JSON="$(cat ./.github/workflows/deployment-config.json)"
+    #     JSON="${JSON//'%'/'%25'}"
+    #     JSON="${JSON//$'\n'/'%0A'}"
+    #     JSON="${JSON//$'\r'/'%0D'}"
+    #     echo "::set-output name=deployment-matrix::$JSON"
           
   deploy:
     runs-on: ubuntu-latest
