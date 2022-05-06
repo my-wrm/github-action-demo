@@ -29,19 +29,34 @@ jobs:
     #     JSON="${JSON//$'\r'/'%0D'}"
     #     echo "::set-output name=deployment-matrix::$JSON"
           
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: [ build ]
+  #   strategy:
+  #     matrix: 
+  #       server: ${{ fromJson(needs.build.outputs.deployment-matrix).web }}
+        
+  #   steps:
+  #   - name: Test Deploy
+  #     run: |
+  #       echo "${{ matrix.server.name }}"
+  #   - name: Test Deploy IP
+  #     run: |
+  #       echo "${{ matrix.server.ip }}"
+      
+    
   deploy:
     runs-on: ubuntu-latest
     needs: [ build ]
     strategy:
       matrix: 
-        server: ${{ fromJson(needs.build.outputs.deployment-matrix).web }}
+        include: ${{ fromJson(needs.build.outputs.deployment-matrix).web }}
         
     steps:
     - name: Test Deploy
       run: |
-        echo "${{ matrix.server.name }}"
+        echo "${{ matrix.name }}"
     - name: Test Deploy IP
       run: |
-        echo "${{ matrix.server.ip }}"
+        echo "${{ matrix.ip }}"
       
-    
