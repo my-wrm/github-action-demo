@@ -4,10 +4,18 @@ name: Deploy from JSON (Raw)
 
 on:
   workflow_dispatch:
-  push:
+    inputs:
+      matrix:
+        description: Custom Deploy Jobs (Type)
+      is_plan_mode:
+        type: boolean
+        description: Plan Mode
+        default: "false" # GitHub Action require 'true' or 'false' in string type
+        required: true
+  # push:
 
 jobs:
-  build:
+  get-matrix:
     runs-on: ubuntu-latest
     outputs:
       deployment-matrix: ${{ steps.export-deployment-matrix.outputs.deployment-matrix }}
@@ -16,10 +24,36 @@ jobs:
     - name: Export deployment matrix
       id: export-deployment-matrix
       run: |
-        npm install --only=prod
-        node ./from-json/example.js deployment-matrix
+        MATRIX="${{ github.event.inputs.matrix }}"
+        if [[ "$MATRIX" == "" ]]
+        then
+          echo "::notice title=Get Matrix::Use Matrix from JSON files"
+          npm install --only=prod
+          node ./from-json/example.js deployment-matrix
+        else
+          echo "::notice title=Get Matrix::Use Custom matrix from input"
+          echo "::set-output name=deployment-matrix::$MATRIX"
+        fi
       working-directory: ./.github/workflows/configs
 
+    - name: Show current config
+      run: |
+        echo "::notice title=Current Matrix::${{ steps.export-deployment-matrix.outputs.deployment-matrix }}"
+        echo "${{ steps.export-deployment-matrix.outputs.deployment-matrix }}" > deploy-config.json
+
+    - uses: actions/upload-artifact@v3
+      with:
+        name: deploy-config
+        path: deploy-config.json
+
+    - name: Exit if plan mode enabled
+      run: |
+        PLAN_MODE="${{ github.event.inputs.is_plan_mode }}"
+        if [[ "$PLAN_MODE" == "true" ]]
+        then
+          echo "::notice title=Get Matrix::Exit with plan Mode"
+          exit 1
+        fi
     # - name: Export deployment matrix
     #   id: export-deployment-matrix
     #   run: |
@@ -44,13 +78,22 @@ jobs:
   #     run: |
   #       echo "${{ matrix.server.ip }}"
       
-    
+  build:
+    if: toJSON(fromJson(needs.get-matrix.outputs.deployment-matrix).web) != '[]'
+    runs-on: ubuntu-latest
+    needs: [ get-matrix ]
+    steps:
+      - name: Test Deploy
+        run: |
+          echo "Build something"
+          echo "- >> ${{ toJSON(fromJson(needs.get-matrix.outputs.deployment-matrix).web) != '[]' }}"
+
   deploy:
     runs-on: ubuntu-latest
-    needs: [ build ]
+    needs: [ get-matrix, build ]
     strategy:
       matrix: 
-        include: ${{ fromJson(needs.build.outputs.deployment-matrix).web }}
+        include: ${{ fromJson(needs.get-matrix.outputs.deployment-matrix).web }}
         
     steps:
     - name: Test Deploy
