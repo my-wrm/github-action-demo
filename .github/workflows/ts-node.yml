@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: TS NODE
 
 # Controls when the workflow will run
 on:
@@ -27,5 +27,8 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: ts-node index.ts
+        run: |
+          npm install -g ts-node
+          echo "console.log('hello TS')" > index.ts
+          ts-node index.ts
 
