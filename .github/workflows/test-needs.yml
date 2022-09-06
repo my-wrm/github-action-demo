@@ -15,7 +15,7 @@ on:
 jobs:
   # This workflow contains a single job called "build"
   test:
-    if: false
+    # if: false
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -27,6 +27,7 @@ jobs:
       - run: echo "${{ toJSON(github.event.action) }}"
       - run: echo "${{ toJSON(github.event.pull_request) }}"
       - run: echo "${{ toJSON(github.event) }}"
+      - run: exit 1
 
   build:
     if: always()
