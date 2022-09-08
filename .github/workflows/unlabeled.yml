@@ -1,0 +1,16 @@
+name: "unlabeled"
+
+on:
+
+  pull_request:
+    types: 
+      - unlabeled
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ github.event.label.name }}"
+      - run: echo "${{ toJSON(github.event.action) }}"
+      - run: echo "${{ toJSON(github.event.pull_request) }}"
+      - run: echo "${{ toJSON(github.event) }}"
