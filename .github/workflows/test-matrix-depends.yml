@@ -1,0 +1,30 @@
+name: Run job when failed
+
+on:
+  push:
+
+jobs:
+  build:
+    name: Run with env name ${{ matrix.env }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 1
+    strategy:
+      fail-fast: false
+      matrix:
+        env: [cat, dog, ant, fish]
+    steps:
+      - name: Use env ${{ matrix.env }}
+        id: test_run
+        run: |
+          RANDOM_NUMBER=$((1 + $RANDOM % 100))
+          echo $RANDOM_NUMBER
+          sleep 10
+          if [ $RANDOM_NUMBER -gt 35 ]; then
+            exit 1
+          fi
+
+  notify:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hey"
