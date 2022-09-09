@@ -1,4 +1,4 @@
-name: Run job when failed
+name: Test Matrix Depends
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
           RANDOM_NUMBER=$((1 + $RANDOM % 100))
           echo $RANDOM_NUMBER
           sleep 10
-          if [ $RANDOM_NUMBER -gt 35 ]; then
+          if [ $RANDOM_NUMBER -gt 50 ]; then
             exit 1
           fi
 
