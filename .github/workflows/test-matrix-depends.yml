@@ -2,6 +2,7 @@ name: Run job when failed
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   build:
