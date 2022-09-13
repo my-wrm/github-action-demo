@@ -1,0 +1,22 @@
+
+on:
+  push:
+
+jobs:
+  main-skip:
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hey"
+  
+  main-success:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hey"
+
+  run:
+    if: always()
+    needs: [main-success, main-skip]
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "${{ toJSON(needs) }}"
