@@ -5,12 +5,16 @@ on:
   pull_request:
     types: 
       - unlabeled
+      - closed
 
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - run: echo "${{ github.event.label.name }}"
+      - run: echo "${{ github.event.pull_request.state }}"
       - run: echo "${{ toJSON(github.event.action) }}"
       - run: echo "${{ toJSON(github.event.pull_request) }}"
       - run: echo "${{ toJSON(github.event) }}"
+
+      state
