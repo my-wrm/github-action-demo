@@ -1,6 +1,6 @@
 
 
-name: "test-comment-pr"
+name: "test node version"
 
 on:
   push:
@@ -9,15 +9,4 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - name: Create comment
-        uses: peter-evans/create-or-update-comment@v1
-        with:
-          issue-number: 7
-          body: |
-            ## Specification 
-
-            * GitHub Pull Request supports ClickUp Card Name Pattern and YouTrack
-              * Youtrack Pattern: `STM-XXX Card Title`
-              * ClickUp Pattern: `Card Title SM-XXX`
-              * Card Name position must be at beginning and Ending.
-            * Comment Deployment Info to GitHub Comment
+      - run: node --version
